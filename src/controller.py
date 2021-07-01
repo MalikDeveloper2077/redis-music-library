@@ -1,5 +1,4 @@
-from src import config
-from src.redis import r
+from src.redis_client import r
 from src.models import Song
 from src.views import print_all_songs
 
@@ -12,9 +11,10 @@ def create_song():
 
 
 def main():
-    create_song().create_redis_song()
+    song = create_song()
+    Song.db.save(song)
     print_all_songs(
-        songs=r.scan_iter(match=f'{config.song_key_prefix}*'),
+        songs=Song.db.get_all_songs(),
         print_song_function=r.hgetall
     )
 
