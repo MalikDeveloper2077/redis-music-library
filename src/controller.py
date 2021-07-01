@@ -1,6 +1,5 @@
-from src.redis_client import r
 from src.models import Song
-from src.views import print_all_songs
+from src.views import print_all_objects
 
 
 def create_song():
@@ -13,9 +12,8 @@ def create_song():
 def main():
     song = create_song()
     Song.db.save(song)
-    print_all_songs(
-        songs=Song.db.get_all_songs(),
-        print_song_function=r.hgetall
+    print_all_objects(
+        keys=Song.db.get_all_objects(song)
     )
 
 

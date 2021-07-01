@@ -1,6 +1,8 @@
-from typing import Callable
+from typing import Iterable
+
+from src.redis_client import get_value_object
 
 
-def print_all_songs(songs, print_song_function: Callable):
-    for song in songs:
-        print(print_song_function(song))
+def print_all_objects(keys: Iterable):
+    for key in keys:
+        print(get_value_object(key))
