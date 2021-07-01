@@ -12,10 +12,10 @@ def create_song():
 
 def main(redis_connection):
     song = create_song()
-    Song.db.save(redis_connection, song)
+    song.db.save(redis_connection, song)
     print_all_objects(
         redis_connection,
-        keys=Song.db.get_all_objects(song)
+        keys=Song.db.get_all_objects(redis_connection, song)
     )
 
 

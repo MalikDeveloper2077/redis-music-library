@@ -23,8 +23,11 @@ class DBRedisManager(IDBManager):
         return redis_connection.scan_iter(match=f'{obj.__class__.__name__}*')
 
 
-class Song:
+class Model:
     db = DBRedisManager()
+
+
+class Song(Model):
 
     def __init__(self, name: str, duration: Union[str, int], streams: int):
         self.name = name
