@@ -1,6 +1,6 @@
-from src.config import song_key_prefix, r
+from typing import Callable
 
 
-def print_all_songs():
-    for song in r.scan_iter(match=f'{song_key_prefix}*'):
-        print(r.hgetall(song))
+def print_all_songs(songs, print_song_function: Callable):
+    for song in songs:
+        print(print_song_function(song))

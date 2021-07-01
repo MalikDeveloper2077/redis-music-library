@@ -1,15 +1,7 @@
 from src import config
-from src.config import r
+from src.redis import r
 from src.models import Song
 from src.views import print_all_songs
-
-
-"""✅ CONTROLLER ✅"""
-
-
-def create_redis_song(song: Song):
-    for prop in song.get_all_data():
-        r.hset(f'{config.song_key_prefix}-{song.name}', prop, getattr(song, prop))
 
 
 def create_song():
@@ -20,8 +12,11 @@ def create_song():
 
 
 def main():
-    create_redis_song(create_song())
-    print_all_songs()
+    create_song().create_redis_song()
+    print_all_songs(
+        songs=r.scan_iter(match=f'{config.song_key_prefix}*'),
+        print_song_function=r.hgetall
+    )
 
 
 if __name__ == '__main__':
