@@ -1,4 +1,5 @@
 from src.models import Song
+from src.redis_client import get_redis_connection
 from src.views import print_all_objects
 
 
@@ -9,13 +10,14 @@ def create_song():
     return Song(name, duration, streams)
 
 
-def main():
+def main(redis_connection):
     song = create_song()
-    Song.db.save(song)
+    Song.db.save(redis_connection, song)
     print_all_objects(
+        redis_connection,
         keys=Song.db.get_all_objects(song)
     )
 
 
 if __name__ == '__main__':
-    main()
+    main(get_redis_connection())
